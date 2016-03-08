@@ -1,0 +1,44 @@
+#include <iostream>
+
+int gcdex(int a, int b, int &x, int &y)
+{
+	int sign1 = 1, sign2 = 1;
+	if (a < 0)
+	{
+		a = -a;
+		sign1 = -1;
+	}
+	if (b < 0)
+	{
+		b = -b;
+		sign2 = -1;
+	}
+	int x1 = 1, y1 = 0, x2 = 0, y2 = 1, p, s;
+	while (b > 0)
+	{
+		p = a / b;
+		s = a % b;
+		a = b;
+		b = s;
+		x = x1 - p * x2;
+		y = y1 - p * y2;
+		x1 = x2;
+		y1 = y2;
+		x2 = x;
+		y2 = y;
+	}
+	x = x1 * sign1; y = y1 * sign2;
+	return a;
+}
+
+int inverse(int a, int n)
+{
+	int x, y;
+	if (gcdex(a, n, x, y) == 1)
+		return x > 0? x : n + x;
+	else
+	{
+		std::cout << "inverse doesn't exist" << std::endl;
+		return 0;
+	}
+}
