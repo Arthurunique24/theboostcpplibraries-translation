@@ -5,7 +5,8 @@
 bool is_palindrome(const std::string &str)
 {
 	for (auto beg = str.begin(), end = str.end() - 1; beg < end; ++beg, --end)
-		if (*beg != *end) return false;
+		if (*beg != *end) 
+			return false;
 	return true;
 }
 
