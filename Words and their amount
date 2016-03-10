@@ -1,7 +1,7 @@
+#pragma once
 #include <string>
 #include <iostream>
 #include <cctype>
-
 class Tree
 {
 	std::string _word;
@@ -12,12 +12,15 @@ public:
 	Tree(std::string word)
 		: _count(1), rbranch(nullptr), lbranch(nullptr), _word(word)
 	{
+		std::cout << "ctor ";
 	}
 	void print_all_tree() const
 	{
-		if (rbranch) rbranch->print_all_tree();
+		if (rbranch) 
+			rbranch->print_all_tree();
 		std::cout << "word \"" << _word << "\" occurs " << _count << " times" << std::endl;
-		if (lbranch) lbranch->print_all_tree();
+		if (lbranch) 
+			lbranch->print_all_tree();
 	}
 	friend void tree_grow(Tree &, std::string &);
 	friend std::ostream &operator<<(std::ostream &, const Tree &);
@@ -26,8 +29,11 @@ public:
 	friend bool operator<(const Tree &, const std::string &);
 	~Tree() 
 	{
-		if (lbranch) delete lbranch;
-		if (rbranch) delete rbranch;
+		std::cout << "dtor ";
+		if (lbranch) 
+			delete lbranch;
+		if (rbranch) 
+			delete rbranch;
 	}
 };
 
@@ -44,13 +50,17 @@ void tree_grow(Tree &tree, std::string &pattern)
 		++tree;
 	else if (tree < pattern)
 	{
-		if (tree.lbranch) tree_grow(*(tree.lbranch), pattern);
-		else tree.lbranch = new Tree(pattern);
+		if (tree.lbranch) 
+			tree_grow(*(tree.lbranch), pattern);
+		else 
+			tree.lbranch = new Tree(pattern);
 	}
 	else
 	{
-		if (tree.rbranch) tree_grow(*(tree.rbranch), pattern);
-		else tree.rbranch = new Tree(pattern);
+		if (tree.rbranch)
+			tree_grow(*(tree.rbranch), pattern);
+		else 
+			tree.rbranch = new Tree(pattern);
 	}
 }
 std::ostream &operator<<(std::ostream &out, const Tree &tree)
@@ -76,17 +86,4 @@ bool operator<(const Tree &tree, const std::string &str)
 		return true;
 	else
 		return false;
-}
-
-int main()
-{
-	std::string cur_str;
-	std::cin >> cur_str;
-	Tree root(cur_str);
-	while (std::cin >> cur_str)
-	{
-		tree_grow(root, cur_str);
-	}
-	root.print_all_tree();
-	return 0;
 }
