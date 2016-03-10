@@ -5,12 +5,12 @@
 
 std::vector<unsigned long> gr_code(int n)
 {
-	int len = pow(2, n);
+	int len = 1 << n;
 	std::vector<unsigned long> vect(1);
-	unsigned long power = 1, time_keeper = pow(2, power);
+	unsigned long power = 1, time_keeper = 1 << power;
 	for (unsigned i = 1; i < len; ++i)
 	{
-		if (i >= time_keeper)	time_keeper = pow(2, ++power);
+		if (i >= time_keeper)	time_keeper = 1 << ++power;
 		vect.push_back(vect[time_keeper - i - 1] + (1UL << (power - 1)));
 	}
 	return vect;
