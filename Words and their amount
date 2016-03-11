@@ -73,17 +73,11 @@ Tree &operator++(Tree &tree)
 }
 bool operator==(const Tree &tree, const std::string &str)
 {
-	if (tree._word == str)
-		return true;
-	else
-		return false;
+	return tree._word == str;
 }
 bool operator<(const Tree &tree, const std::string &str)
 {
-	if (tree._word < str)
-		return true;
-	else
-		return false;
+	return tree._word < str;
 }
 
 int main()
