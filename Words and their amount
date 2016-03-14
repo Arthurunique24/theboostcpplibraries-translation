@@ -1,14 +1,13 @@
 #include <string>
 #include <iostream>
 #include <cctype>
-
 class Tree
 {
 	std::string _word;
 	int _count;
 	Tree *rbranch, *lbranch;
-	Tree() {}
 public:
+	Tree() = delete;
 	Tree(std::string word)
 		: _count(1), rbranch(nullptr), lbranch(nullptr), _word(word)
 	{
@@ -21,74 +20,62 @@ public:
 		if (lbranch) 
 			lbranch->print_all_tree();
 	}
-	friend void tree_grow(Tree &, std::string &);
+	friend void tree_grow(Tree *&, std::string &);
 	friend std::ostream &operator<<(std::ostream &, const Tree &);
-	friend Tree &operator++(Tree &);
-	friend bool operator==(const Tree &, const std::string &);
-	friend bool operator<(const Tree &, const std::string &);
 	~Tree() 
 	{
-		if (lbranch)
-			delete lbranch;
-		if (rbranch) 
-			delete rbranch;
+		delete lbranch;
+		delete rbranch;
 	}
 };
 
 
 inline void delete_punct(std::string &str)
 {	
-	for (auto beg = str.begin(), end = str.end(); beg != end && !isalnum(*(str.end() - 1)); end = str.end())
-		str.pop_back();
+	std::string::size_type pos = 0;
+	while (pos != str.size())
+	{
+		if (!isalnum(str.at(pos)))
+			str.erase(pos, 1);
+		else
+			++pos;
+	}
 }
-void tree_grow(Tree &tree, std::string &pattern)
+void tree_grow(Tree *&tree, std::string &pattern)
 {
 	delete_punct(pattern);
-	if (tree == pattern)
-		++tree;
-	else if (tree < pattern)
+	if (!tree)
 	{
-		if (tree.lbranch)
-			tree_grow(*(tree.lbranch), pattern);
-		else
-			tree.lbranch = new Tree(pattern);
+		tree = new Tree(pattern);
+		return;
+	}
+	if (tree->_word == pattern)
+		++(tree->_count);
+	else if (tree->_word < pattern)
+	{
+		tree_grow(tree->lbranch, pattern);
 	}
 	else
 	{
-		if (tree.rbranch) 
-			tree_grow(*(tree.rbranch), pattern);
-		else
-			tree.rbranch = new Tree(pattern);
+		tree_grow(tree->rbranch, pattern);
 	}
 }
-std::ostream &operator<<(std::ostream &out, const Tree &tree)
+inline std::ostream &operator<<(std::ostream &out, const Tree &tree)
 {
 	out << tree._word;
 	return out;
-}
-Tree &operator++(Tree &tree)
-{
-	++tree._count;
-	return tree;
-}
-bool operator==(const Tree &tree, const std::string &str)
-{
-	return tree._word == str;
-}
-bool operator<(const Tree &tree, const std::string &str)
-{
-	return tree._word < str;
 }
 
 int main()
 {
 	std::string cur_str;
 	std::cin >> cur_str;
-	Tree root(cur_str);
+	delete_punct(cur_str);
+	Tree *root = new Tree(cur_str);
 	while (std::cin >> cur_str)
 	{
 		tree_grow(root, cur_str);
 	}
-	root.print_all_tree();
+	root->print_all_tree();
 	return 0;
 }
