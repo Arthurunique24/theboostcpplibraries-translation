@@ -1,0 +1,66 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+
+
+void print_vin(int &index, std::string *left_vinicity, int n, std::ifstream &file, const std::string pattern)
+{
+	std::string cur_word(pattern);
+	int i = index;
+	do
+	{
+		if (!left_vinicity[i].empty())
+			std::cout << left_vinicity[i] << " ";
+		i = (i + 1) % n;
+	} while (i != index);
+	std::cout << pattern << " ";
+	for (int j = 0; j < n && file >> cur_word; ++j)
+	{
+		std::cout << cur_word << " ";
+		left_vinicity[index] = cur_word;
+		index = (index + 1) % n;
+	}
+	std::cout << std::endl;
+}
+
+int main()
+{
+	std::string filepath;
+	std::cout << "filepath" << std::endl;
+	std::cin >> filepath;
+	std::ifstream file(filepath);
+	if (!file.is_open())
+	{
+		std::cout << "Probably, file doesn't exist" << std::endl;
+		return -1;
+	}
+
+	std::string pattern;
+	std::cout << "word" << std::endl;
+	std::cin >> pattern;
+
+	int n;
+	std::cout << "quantity" << std::endl;
+	std::cin >> n;
+
+	// массив для хранения левой окрестности
+	std::string *left_vinicity = new std::string[n];
+	int index = 0;
+	// текущее прочитанное слово из файла
+	std::string cur_word;
+	while (file >> cur_word)
+	{
+		if (cur_word == pattern)
+		{
+			print_vin(index, left_vinicity, n, file, pattern);
+		}
+		else
+		{
+			left_vinicity[index] = cur_word;
+			index = (index + 1) % n;
+		}
+	}
+	delete[] left_vinicity;
+	file.close();
+	return 0;
+}
