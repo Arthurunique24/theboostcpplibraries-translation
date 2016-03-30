@@ -34,11 +34,14 @@ int main()
 		if (cur_word == pattern)
 		{
 			pos = file.tellg();
+			if (!file.good())
+				file.clear();
 			file.seekg(left_vinicity.front());
 			for (int i = 0; i < (2 * n + 1) && file >> cur_word; ++i)
 				std::cout << cur_word << " ";
 			std::cout << std::endl;
-			file.clear();
+			if (!file.good())
+				file.clear();
 			file.seekg(pos);
 			left_vinicity.pop();
 			left_vinicity.push(pos);
