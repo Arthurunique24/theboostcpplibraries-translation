@@ -1,0 +1,57 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <queue>
+
+int main()
+{
+	std::string filepath;
+	std::cout << "file" << std::endl;
+	std::cin >> filepath;
+	
+	std::ifstream file(filepath);
+	if (!file.is_open())
+	{
+		std::cout << "Probably, file doesn't exist" << std::endl;
+		return -1;
+	}
+	std::string pattern;
+	std::cout << "word" << std::endl;
+	std::cin >> pattern;
+	
+	int n;
+	std::cout << "quantity" << std::endl;
+	std::cin >> n;
+
+	// очередь для хранения левой окрестности
+	std::queue<std::streampos> left_vinicity;
+	left_vinicity.push(file.tellg());
+	std::streampos pos;
+	// текущее прочитанное слово из файла
+	std::string cur_word;
+	while (file >> cur_word)
+	{
+		if (cur_word == pattern)
+		{
+			pos = file.tellg();
+			file.seekg(left_vinicity.front());
+			for (int i = 0; i < (2 * n + 1) && file >> cur_word; ++i)
+				std::cout << cur_word << " ";
+			std::cout << std::endl;
+			file.clear();
+			file.seekg(pos);
+			left_vinicity.pop();
+			left_vinicity.push(pos);
+		}
+		else
+		{
+			if (left_vinicity.size() == n + 1)
+				left_vinicity.pop();
+			left_vinicity.push(file.tellg());
+		}
+	}
+
+	file.close();
+	system("pause");
+	return 0;
+}
