@@ -1,0 +1,23 @@
+#include <string>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+	fstream in ("ABC.txt");
+    vector <string> th;
+	string a;
+	while (in >> a)
+	th.push_back(a);
+	
+	
+	for (int i = 0; i < th.size(); i++)
+	{
+		cout << th[i] << " ";
+	}
+	
+      system("pause");
+	return 0;
+	
+	
+}
