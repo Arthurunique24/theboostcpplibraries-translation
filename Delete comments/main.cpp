@@ -87,8 +87,6 @@ private:
 };
 
 int main() {
-	"/* wide \
-		comment /*";
 	std::ifstream in("input.txt");
 	std::ofstream out("output.txt");
 	CommentsDeleter d(in, out);
