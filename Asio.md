@@ -184,3 +184,155 @@ int main()
 `do_accept()` содержит цикл `for`. Новый сокет передается `async_accept()` каждый раз, когда функция вызывается. Когда клиент устанавливает соединение, вызывается `do_write()` как сопрограмма с `boost::asio::spawn()`, чтобы отправить текущее время клиенту.
 
 Цикл `for` позволяет легко видеть, что программа может обслужить двух клиентов перед выходом. Так как пример основан на сопрограммах, повторное выполнение асинхронной операции может быть реализован в цикле `for`. Это улучшает читаемость программы, так как вы не должны отслеживать потенциальные вызовы обработчиков, чтобы выяснить, когда последняя асинхронная операция будет завершена. Если сервер времени должен поддерживать более двух клиентов, нужно модифицировать только цикл `for`.
+
+<a name="iospecific"></a>
+# Платформо-зависимые объекты ввода-вывода
+До сих пор все примеры, приведенные в этой главе, были независимыми от платформы. Объекты ввода-вывода, такие как `boost::asio::steady_timer` и `oost::asio::ip::tcp::socket`, поддерживаются на всех платформах. Тем не менее Boost.Asio также предоставляет платформо-зависимые объекты ввода-вывода, поскольку некоторые асинхронные операции доступны только на определенных платформах, например, Windows или Linux.
+
+<a name="#example328"></a>
+### Пример 32.8. Использование boost::asio::windows::object_handle
+```c++
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/windows/object_handle.hpp>
+#include <boost/system/error_code.hpp>
+#include <iostream>
+#include <Windows.h>
+
+using namespace boost::asio;
+using namespace boost::system;
+
+int main()
+{
+  io_service ioservice;
+
+  HANDLE file_handle = CreateFileA(".", FILE_LIST_DIRECTORY,
+    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
+    OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
+
+  char buffer[1024];
+  DWORD transferred;
+  OVERLAPPED overlapped;
+  ZeroMemory(&overlapped, sizeof(overlapped));
+  overlapped.hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+  ReadDirectoryChangesW(file_handle, buffer, sizeof(buffer), FALSE,
+    FILE_NOTIFY_CHANGE_FILE_NAME, &transferred, &overlapped, NULL);
+
+  windows::object_handle obj_handle{ioservice, overlapped.hEvent};
+  obj_handle.async_wait([&buffer, &overlapped](const error_code &ec) {
+    if (!ec)
+    {
+      DWORD transferred;
+      GetOverlappedResult(overlapped.hEvent, &overlapped, &transferred,
+        FALSE);
+      auto notification = reinterpret_cast<FILE_NOTIFY_INFORMATION*>(buffer);
+      std::wcout << notification->Action << '\n';
+      std::streamsize size = notification->FileNameLength / sizeof(wchar_t);
+      std::wcout.write(notification->FileName, size);
+    }
+  });
+
+  ioservice.run();
+}
+```
+[Пример 32.8](#example328) использует объект ввода-вывода `boost::asio::windows::object_handle`, который доступен только на Windows. Объект `boost::asio::windows::object_handle`, который основан на Windows-функции `RegisterWaitForSingleObject()`, позволяет запускать асинхронные операции для ручек (handle) объекта. Все ручки, принятые `RegisterWaitForSingleObject(),` могут использоваться с `boost::asio::windows::object_handle`. С `async_wait()` возможно асинхронно ожидать, пока не изменится ручка объекта.
+
+[Пример 32.8](#example328) инициализирует объект **obj_handle** типа `boost::asio::windows::object_handle` с ручкой, созданной с помощью Windows-функции `CreateEvent()`. Ручка является частью структуры `OVERLAPPED`, чей адрес передается Windows-функции `ReadDirectoryChangesW()`. Окна использует структуры `OVERLAPPED` для запуска асинхронных операций.
+
+Функция `ReadDirectoryChangesW()` может быть использована для слежения за каталогом и ожидания изменений в нём. Для асинхронного вызова функции структура `OVERLAPPED` должна быть передана `ReadDirectoryChangesW()`. Чтобы сообщить о завершении асинхронной операции через Boost.Asio, обработчик событий сохраняется в структуре `OVERLAPPED` до того, как он передается `ReadDirectoryChangesW()`. Впоследствии этот обработчик события передается **obj_handle**. Когда `async_wait()` вызывается на **obj_handle**, обработчик выполняется при обнаружении изменения в наблюдаемой директории.
+
+При запуске [Пример 32.8](#example328), создайте новый файл в каталоге, из которого будет запущен пример. Программа обнаружит новый файл и напишет сообщение в стандартный поток вывода.
+
+<a name="example329"></a>
+### Пример 32.9. Использование boost::asio::windows::overlapped_ptr
+```c++
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/windows/overlapped_ptr.hpp>
+#include <boost/system/error_code.hpp>
+#include <iostream>
+#include <Windows.h>
+
+using namespace boost::asio;
+using namespace boost::system;
+
+int main()
+{
+  io_service ioservice;
+
+  HANDLE file_handle = CreateFileA(".", FILE_LIST_DIRECTORY,
+    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL,
+    OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
+
+  error_code ec;
+  auto &io_service_impl = use_service<detail::io_service_impl>(ioservice);
+  io_service_impl.register_handle(file_handle, ec);
+
+  char buffer[1024];
+  auto handler = [&buffer](const error_code &ec, std::size_t) {
+    if (!ec)
+    {
+      auto notification =
+        reinterpret_cast<FILE_NOTIFY_INFORMATION*>(buffer);
+      std::wcout << notification->Action << '\n';
+      std::streamsize size = notification->FileNameLength / sizeof(wchar_t);
+      std::wcout.write(notification->FileName, size);
+    }
+  };
+  windows::overlapped_ptr overlapped{ioservice, handler};
+  DWORD transferred;
+  BOOL ok = ReadDirectoryChangesW(file_handle, buffer, sizeof(buffer),
+    FALSE, FILE_NOTIFY_CHANGE_FILE_NAME, &transferred, overlapped.get(),
+    NULL);
+  int last_error = GetLastError();
+  if (!ok && last_error != ERROR_IO_PENDING)
+  {
+    error_code ec{last_error, error::get_system_category()};
+    overlapped.complete(ec, 0);
+  }
+  else
+  {
+    overlapped.release();
+  }
+
+  ioservice.run();
+}
+```
+[Пример 32.9](#example329), как и предыдущий, использует `ReadDirectoryChangesW()`, чтобы следить за каталогом. На этот раз, асинхронный вызов `ReadDirectoryChangesW()` не связан с обработчиком событий. В примере используется класс `boost::asio::windows::overlapped_ptr`, который в своей реализации использует структуру `OVERLAPPED`. `get()` возвращает указатель на внутреннюю структуру `OVERLAPPED`. В примере указатель затем передается в `ReadDirectoryChangesW()`.
+
+`boost::asio::windows::overlapped_ptr` это объект ввода-вывода, который не имеет функции-члена, чтобы начать асинхронную операцию. Асинхронная операция запускается, когда передаётся указатель на внутреннюю переменную `OVERLAPPED` в Windows-функцию. В дополнение к объекту сервиса ввода-вывода, конструктор `boost::asio::windows::overlapped_ptr` ожидает обработчик, который будет вызываться, когда асинхронная операция завершается.
+
+[Пример 32.9](#example329) использует `boost::asio::use_service()`, чтобы получить ссылку на службу в объекте службы ввода-вывода **ioservice**. `boost::asio::use_service()` представляет собой шаблон функции. Тип службы ввода-вывода, который вы хотите извлечь, должен быть передан в качестве параметра шаблона. В примере повышение передается `boost::asio::detail::io_service_impl`. Этот тип сервиса ввода-вывода самый близкий к операционной системе. В операционной системе Windows `boost::asio::detail::io_service_impl` использует IOCP, а на Linux использует `epoll()`. `boost::asio::detail::io_service_impl` - это определение типа, который устанавливается для `boost::asio::detail::win_iocp_io_service` на Windows и `boost::asio::detail::task_io_service` на Linux.
+
+`boost::asio::detail::win_iocp_io_service` предоставляет функцию-член `register_handle()`, чтобы связать ручку с IOCP-ручкой. `register_handle()` вызывает Windows-функцию `CreateIoCompletionPort()`. Этот вызов необходим для примера, чтобы jy работал правильно. Ручка, возвращаемая `CreateFileA()`, может быть передана через **overlapped** в `ReadDirectoryChangesW()` только после того, как он будет связан с IOCP-ручкой.
+
+[Пример 32.9](#example329) проверяет, удачно ли завершилась `ReadDirectoryChangesW()`. Если `ReadDirectoryChangesW()` завершилась с ошибкой, вызывается `complete()` на **overlapped**, чтобы завершенить асинхронную операцию для Boost.Asio. Параметры, передаваемые для `complete()` перенаправляются к обработчику.
+
+Если `ReadDirectoryChangesW()` завершается успешно, вызывается `release()` . Далее асинхронная операция находится в ожидании и завершается только после завершения операции, которая была инициирована с помощью Windows-функции `ReadDirectoryChangesW()`.
+
+<a name="example3210"></a>
+### Пример 32.10. Использование boost::asio::posix::stream_descriptor
+```c++
+#include <boost/asio/io_service.hpp>
+#include <boost/asio/posix/stream_descriptor.hpp>
+#include <boost/asio/write.hpp>
+#include <boost/system/error_code.hpp>
+#include <iostream>
+#include <unistd.h>
+
+using namespace boost::asio;
+
+int main()
+{
+  io_service ioservice;
+
+  posix::stream_descriptor stream{ioservice, STDOUT_FILENO};
+  auto handler = [](const boost::system::error_code&, std::size_t) {
+    std::cout << ", world!\n";
+  };
+  async_write(stream, buffer("Hello"), handler);
+
+  ioservice.run();
+}
+```
+[Пример 32.10](#example3210) представляет объект ввода-вывода для POSIX платформ.
+
+`boost::asio::posix::stream_descriptor` может быть инициализирован с дескриптора файла, чтобы начать асинхронную операцию для данного файлового дескриптора. В примере, **stream** связан с дескриптор файла `STDOUT_FILENO`, чтобы записать строку асинхронно в стандартный поток вывода.
