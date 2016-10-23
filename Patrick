@@ -1,0 +1,99 @@
+#include <iostream>
+#include <set>
+#include <vector>
+#include <string>
+#include <sstream>
+
+class implicant {
+private:
+    std::vector<std::set<int>> sets_;
+    bool include(const std::set<int> &lhs, const std::set<int> &rhs)
+    {
+        for (auto el : rhs) {
+            if (lhs.find(el) == lhs.end()) {
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    static implicant resolveString(const std::string &str)
+    {
+        implicant res;
+        for (size_t i = 0; i < str.size(); ++i) {
+            if (str[i] == '(') {
+                implicant tmp;
+                std::set<int> set;
+                while(str[++i] != ')') {
+                    if (isdigit(str[i])) {
+                        int val = str[i] - '0';
+                        while (isdigit(str[++i])) {
+                            val = val * 10 + (str[i] - '0');
+                        }
+                        set.insert(val);
+                        --i;
+                    } else if (str[i] == '+') {
+                        tmp += set;
+                        set.clear();
+                    }
+                }
+                tmp += set;
+                if (res.sets_.size() == 0) {
+                    swap(res.sets_, tmp.sets_);
+                } else {
+                    res *= tmp;
+                }
+            }
+        }
+        return res;
+    }
+    implicant &operator+=(const std::set<int> &set)
+    {
+        for (auto it = sets_.begin(); it != sets_.end();) {
+            if (include(*it, set)) {
+                sets_.erase(it);
+            } else if (include(set, *it)){
+                return *this;
+            } else {
+                ++it;
+            }
+        }
+        sets_.push_back(set);
+        return *this;
+    }
+    implicant &operator*=(const implicant &impl)
+    {
+        implicant tmp;
+        for (auto rset : impl.sets_) {
+            for (auto lset : sets_) {
+                auto st = lset;
+                st.insert(rset.begin(), rset.end());
+                tmp += st;
+            }
+        }
+        swap(tmp.sets_, sets_);
+        return *this;
+    }
+    void print()
+    {
+        for (size_t i = 0; i < sets_.size(); ++i) {
+            std::cout << "( ";
+            for (auto el : sets_[i]) {
+                std::cout << el << ' ';
+            }
+            std::cout << ')';
+            if (i != sets_.size() - 1) {
+                std::cout << " \\/ ";
+            }
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    std::string request;
+    std::cin >> request;
+    implicant im = implicant::resolveString(request);
+    im.print();
+    return 0;
+}
