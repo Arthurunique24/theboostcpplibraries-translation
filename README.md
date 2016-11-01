@@ -11,5 +11,5 @@ With the exceptions noted below, this work is licensed under a Creative Commons 
 10. [Boost.Tokenizer](/String_Handling/10.Boost.Tokenizer.md)
 
 ## Участники перевода
-Chapter 7 - @1998bagaev
-Chapter 10 - @1998bagaev
+- Chapter 7 - @1998bagaev
+- Chapter 10 - @1998bagaev
