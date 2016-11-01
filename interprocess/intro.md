@@ -2,8 +2,8 @@
 
 Содержание:
 
-[Общая память](https://github.com/kabachok169/translate/blob/master/first_chapter.md#Общая-память)  
-[Управление общей памятью](https://github.com/kabachok169/translate/blob/master/second_chapter.md)  
+[Общая память](#Общая-память)  
+[Управление общей памятью]()  
 Синхронизация
 
 Interprocess-связи описывают механизмы для обмена данными между программами, работающими на одном и том же компьютере. Это не 
