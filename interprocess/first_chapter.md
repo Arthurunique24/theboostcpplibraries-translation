@@ -38,4 +38,29 @@ int main()
 
 После создания общей памяти, могут быть вызваны функции-члены, такие как `get_name()` и `get_size()`, для запроса имени или размера этой памяти.
 
-Поскольку совместная память используется для обмена информацией между разными процессами, каждый из них должен отобразить? общую память в свое адресное пространство. Для этого используется класс `boost::interprocess::mapped_region`. Неожиданностью может оказаться то, что для доступа к совместной памяти понадобятся два класса (`boost::interprocess::shared_memory_object` и boost::interprocess::mapped_region`)
+Поскольку совместная память используется для обмена информацией между разными процессами, каждый из них должен отобразить? общую память в свое адресное пространство. Для этого используется класс `boost::interprocess::mapped_region`. Неожиданностью может оказаться то, что для доступа к совместной памяти понадобятся два класса (`boost::interprocess::shared_memory_object` и `boost::interprocess::mapped_region`). Это сделано для того, чтобы класс `boost::interprocess::mapped_region` мог также быть использован для отображения других объектов в адресное пространство процесса.
+
+#### Пример 33.2. Отображение общей памяти в адресное пространство процесса
+```c++
+#include <boost/interprocess/shared_memory_object.hpp>
+#include <boost/interprocess/mapped_region.hpp>
+#include <iostream>
+
+using namespace boost::interprocess;
+
+int main()
+{
+  shared_memory_object shdmem{open_or_create, "Boost", read_write};
+  shdmem.truncate(1024);
+  mapped_region region{shdmem, read_write};
+  std::cout << std::hex << region.get_address() << '\n';
+  std::cout << std::dec << region.get_size() << '\n';
+  mapped_region region2{shdmem, read_only};
+  std::cout << std::hex << region2.get_address() << '\n';
+  std::cout << std::dec << region2.get_size() << '\n';
+}
+```
+
+---
+
+Для использования класса `boost::interprocess::mapped_region` подключите заголовочный файл `boost/interprocess/mapped_region.hpp`. В качестве первого параметра конструктора `boost::interprocess::mapped_region` должен быть передан объект типа  `boost::interprocess::shared_memory_object` Второй параметр определяет степень доступа к памяти(read-only или read-write).
