@@ -6,7 +6,7 @@
 В Boost.Interprocess класс `boost::interprocess::shared_memory_object` используется для представления общей памяти. Включите в проект 
 заголовочный файл `boost/interprocess/shared_memory_object.hpp` для использования этого класса.
 
-#### Пример 33.1. Создание общей памяти
+##### Пример 33.1. Создание общей памяти
 ```c++
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <iostream>
