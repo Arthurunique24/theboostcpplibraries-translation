@@ -24,7 +24,6 @@ int main()
 }
 ```
 
----
 
 Конструктор `boost::interprocess::shared_memory_object` принимает три параметра. Первый параметр определяет, должна ли быть создана общая память или открыта. [Пример 33.1](#Пример-331-Создание-общей-памяти) 
 обрабатывает оба варианта. `boost::interprocess::open_or_create` откроет общую память, если она уже существует или создаст ее в обратном  случае. 
@@ -61,7 +60,6 @@ int main()
 }
 ```
 
----
 
 Для использования класса `boost::interprocess::mapped_region` подключите заголовочный файл `boost/interprocess/mapped_region.hpp`. В качестве первого параметра конструктора `boost::interprocess::mapped_region` должен быть передан объект типа  `boost::interprocess::shared_memory_object` Второй параметр определяет степень доступа к памяти(read-only или read-write).
 
