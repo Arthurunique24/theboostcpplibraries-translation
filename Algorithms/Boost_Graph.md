@@ -1,8 +1,8 @@
 # Глава 31.  Boost.Graph
 
 #### Содержание
-* [Вершины и рёбра](../blob/master/Algorithms.md)
-* [Алгоритмы](../blob/master/Vertices_and_Edges.md)
+* [Вершины и рёбра](../master/Algorithms.md)
+* [Алгоритмы](../master/Vertices_and_Edges.md)
 * [Контейнеры](#containers)
 
 [Boost.Graph](http://www.boost.org/doc/libs/1_61_0/libs/graph/doc/index.html) предоставляет инструменты для работы с графами. Графы - это непустое множество двумерных вершин, соединённых любым количеством линий - рёбер. Хороший пример графа - карта метро, где станции метро - вершины, линии метро - рёбра.
