@@ -100,7 +100,7 @@ int main()
 
 <a name="ex.graph_04"/>
 Example 29.4. Исполизование boost::algorithm::hex() и boost::algorithm::unhex()
-```с++
+```c++
 #include <boost/algorithm/hex.hpp>
 #include <vector>
 #include <string>
@@ -124,5 +124,6 @@ int main()
 
   std::string t = "432b2b";
   std::cout << unhex(t) << '\n';
-}```
+}
+```
 
