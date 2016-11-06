@@ -95,3 +95,34 @@ int main()
 
 В то время как `boost::algorithm::equal()` возвращает `bool`, `boost::algorithm::mismatch()` возвращает два аргумента в `std::pair`. первый и второй ссылаются на элементы первой и второй последовательности, которые являются первыми несовпадениями. Эти итераторы могут также ссылаются на конец последовательности.
 
+[Пример 29.3](#ex.graph_03) выводит false и 3 в стандартный поток вывода. false является возвращаемым значением `boost::algorithm::equal()`, 3 - третий элемент в W. Поскольку первые два элемента в V и W равны, `boost::algorithm::mismatch()` возвращает в первом итератор к концу V и во втором итератор к третьему элементу W. Из-за того, что первый ссылается на конец V,  неразыменованный итератор, ничего не выведится.
+
+
+<a name="ex.graph_04"/>
+Example 29.4. Исполизование boost::algorithm::hex() и boost::algorithm::unhex()
+```с++
+#include <boost/algorithm/hex.hpp>
+#include <vector>
+#include <string>
+#include <iterator>
+#include <iostream>
+
+using namespace boost::algorithm;
+
+int main()
+{
+  std::vector<char> v{'C', '+', '+'};
+  hex(v, std::ostream_iterator<char>{std::cout, ""});
+  std::cout << '\n';
+
+  std::string s = "C++";
+  std::cout << hex(s) << '\n';
+
+  std::vector<char> w{'4', '3', '2', 'b', '2', 'b'};
+  unhex(w, std::ostream_iterator<char>{std::cout, ""});
+  std::cout << '\n';
+
+  std::string t = "432b2b";
+  std::cout << unhex(t) << '\n';
+}```
+
