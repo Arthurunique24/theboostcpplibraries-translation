@@ -2,7 +2,7 @@
 
 ###Оглавление
 
-Algorithms
+[Algorithms](../master/Range_Algorithms.md)
 
 Adaptors
 
