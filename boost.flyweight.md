@@ -155,6 +155,3 @@ Template parameters other than tags can be passed to `boost::flyweights::flyweig
 `boost::flyweights::set_factory` tells Boost.Flyweight to use a sorted container, such as `std::set`, rather than a hash container. With `boost::flyweights::no_locking`, support for multithreading, which is normally activated by default, is deactivated. `boost::flyweights::no_tracking` tells Boost.Flyweight to not track objects stored in internal containers. By default, when objects are no longer used, Boost.Flyweight detects this and removes them from the containers. When `boost::flyweights::no_tracking` is set, the detection mechanism is disabled. This improves performance. However, containers can only grow and will never shrink.
 
 Boost.Flyweight supports additional settings. Check the official documentation if you are interested in more details on tuning.
-
-[Prev](design-patterns.md) | [Next](boost.signals2.md)
---- | ---

@@ -391,6 +391,3 @@ Boost.MetaStateMachine provides additional functions, such as `state_()` and `ev
 ### Tip
 
 > As you can see in the examples, the front-end eUML requires you to use many macros. The header file `boost/msm/front/euml/common.hpp` contains definitions for all of the eUML macros, which makes it a useful reference.
-
-[Prev](boost.signals2-multithreading.md) | [Next](other-libraries.md)
---- | ---
