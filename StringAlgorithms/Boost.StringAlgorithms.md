@@ -45,3 +45,53 @@ int main()
   std::cout << upper_case2 << '\n';
 }
 ```
+
+[Пример 5.2]() вызывает `boost::algorithm::to_upper_copy()` дважды, чтобы преобразовать турецкую строку “Boost C++ kütüphaneleri” к верхнему регистру. Первый вызов `boost::algorithm::to_upper_copy()` использует глобальный набор параметров, которая в этом случае является набором параметров C. В наборе параметров C нет никакого прописного отображения для символов с перегласовкой, таким образом, вывод будет "BOOST C++ KüTüPHANELERI".
+
+Турецкий набор параметров передаётся во втором вызове `boost::algorithm::to_upper_copy()`. Поскольку этот набор параметров имеет прописные эквиваленты для перегласовки, вся строка может быть преобразована в верхний регистр. Поэтому второй вызов правильно преобразовывает строку, которая выглядит как: "BOOST C++ KÜTÜPHANELERI".
+
+```
+Если вы хотите выполнить пример в операционной системе POSIX, замените “Turkish” на “tr_TR” и будьте уверены, что турецкий набор параметров установлен.
+```
+
+#### Пример 5.3. Алгоритмы для удаления символов из строки
+
+```
+#include <boost/algorithm/string.hpp>
+#include <string>
+#include <iostream>
+
+using namespace boost::algorithm;
+
+int main()
+{
+  std::string s = "Boost C++ Libraries";
+  std::cout << erase_first_copy(s, "s") << '\n';
+  std::cout << erase_nth_copy(s, "s", 0) << '\n';
+  std::cout << erase_last_copy(s, "s") << '\n';
+  std::cout << erase_all_copy(s, "s") << '\n';
+  std::cout << erase_head_copy(s, 5) << '\n';
+  std::cout << erase_tail_copy(s, 9) << '\n';
+}
+```
+
+Boost.StringAlgorithms обеспечивает некоторые функции, которые вы можете использовать для удаления отдельных символов из строки (см. [Пример 5.3]()). Например, `boost::algorithm::erase_all_copy()` удалит все случаи возникновения определенного символа из строки. Чтобы удалить только первое возникновение символа, используйте `boost::algorithm::erase_first_copy()`. Чтобы сократить строку определенным количеством символов на любом конце, используйте функции `boost::algorithm::erase_head_copy()` и `boost::algorithm::erase_tail_copy()`.
+
+#### Example 5.4. Поиск подстрок с boost::algorithm::find_first()  
+
+```
+#include <boost/algorithm/string.hpp>
+#include <string>
+#include <iostream>
+
+using namespace boost::algorithm;
+
+int main()
+{
+  std::string s = "Boost C++ Libraries";
+  boost::iterator_range<std::string::iterator> r = find_first(s, "C++");
+  std::cout << r << '\n';
+  r = find_first(s, "xyz");
+  std::cout << r << '\n';
+}
+```
