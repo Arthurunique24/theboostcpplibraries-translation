@@ -1,0 +1,1 @@
+### [Открыть](design-patterns.md)
