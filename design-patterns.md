@@ -10,5 +10,5 @@ The following libraries are for design patterns.
 * [67. Boost.Signals2](boost.signals2.md)
 * [68. Boost.MetaStateMachine](boost.msm.md)
 
-[Prev](boost.uuid) | [Next](boost.flyweight.md)
+[Prev](boost.uuid.md) | [Next](boost.flyweight.md)
 --- | ---
