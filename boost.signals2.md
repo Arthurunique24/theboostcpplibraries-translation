@@ -1,3 +1,4 @@
+[chapter21]: https://theboostcpplibraries.com/boost.optional
 # Chapter 67. Boost.Signals2
 
 **Table of Contents**
@@ -177,7 +178,7 @@ In [Example 67.7](#ex.signals2_07) two lambda functions are associated with the 
 
 [Example 67.7](#ex.signals2_07) writes `2` to standard output. Both return values were correctly accepted by **s**, but all except the last one were ignored. By default, only the last return value of all associated functions is returned.
 
-Please note that `s()` does not directly return the result of the last function called. An object of type `boost::optional` is returned, which when de-referenced returns the number 2. Triggering a signal that is not associated with any function does not yield any return value. Thus, in this case, `boost::optional` allows Boost.Signals2 to return an empty object. `boost::optional` is introduced in [Chapter 21](boost.optional.md).
+Please note that `s()` does not directly return the result of the last function called. An object of type `boost::optional` is returned, which when de-referenced returns the number 2. Triggering a signal that is not associated with any function does not yield any return value. Thus, in this case, `boost::optional` allows Boost.Signals2 to return an empty object. `boost::optional` is introduced in [Chapter 21][chapter21].
 
 It is possible to customize a signal so that the individual return values are processed accordingly. To do this, a *combiner* must be passed to `boost::signals2::signal` as a second template parameter.
 
