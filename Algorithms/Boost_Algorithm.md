@@ -23,7 +23,7 @@ int main()
 }
 ```
 
-`boost::algorithm::one_of_equal()` проверяет, выполнено ли условие ровно один раз. Условие на проверку передается как предикат. В [Примере 29.1](#ex.graph_01) вызов `boost::algorithm::one_of()` вернет `true`, так как число 4 сохраняется ровно один раз в **a**.
+`boost::algorithm::one_of_equal()` проверяет, выполнено ли условие ровно один раз. Условие на проверку передается как предикат. В [Примере 29.1](#ex.graph_01) вызов `boost::algorithm::one_of()` вернет `true`, так как число 4 встречается ровно один раз в **a**.
 
 Для проверки элементов в контейнере на равенство, вызовите `boost::algorithm::one_of_equal()`. В этом случае не требуется передавать предикат. Вместо него передается значение для сравнения с `boost::algorithm::one_of_equal()`. В [Примере 29.1](#ex.graph_01) вызов `boost::algorithm::one_of_equal()` так же вернет `true`.
 
@@ -31,7 +31,7 @@ int main()
 
 Boost.Algorithm также определяет следующие функции: `boost::algorithm::all_of_equal()`, `boost::algorithm::any_of_equal()`, и `boost::algorithm::none_of_equal()`.
 
-В Boost.Algorithm есть и другие алгоритмы, схожие с алгоритмами стандартной библиотеки C++11. Например, есть `boost::algorithm::is_partitioned()`, `boost::algorithm::is_permutation()`, `boost::algorithm::copy_n()`, `boost::algorithm::find_if_not()` и `boost::algorithm::iota()`. Эти функции работают точно как и одноименые из стандартной библиотеки C++11 и предназначены для разработчиков, которые не используют C++11. Тем не менее, в Boost.Algorithm есть немного функций, которые могут быть полезны и разработчикам C++11.
+В Boost.Algorithm есть и другие алгоритмы, схожие с алгоритмами стандартной библиотеки C++11. Например, есть `boost::algorithm::is_partitioned()`, `boost::algorithm::is_permutation()`, `boost::algorithm::copy_n()`, `boost::algorithm::find_if_not()` и `boost::algorithm::iota()`. Эти функции работают как и одноимённые из стандартной библиотеки C++11 и предназначены для разработчиков, которые не используют C++11. Тем не менее, в Boost.Algorithm есть немного функций, которые могут быть полезны и разработчикам C++11.
 
 <a name="ex.graph_02"/>
 Пример 29.2 Еще варианты алгоритмов C++11
@@ -56,11 +56,11 @@ int main()
 }
 ```
 
-Boost.Algorithm обеспечивает алгоритм C++11 `boost::algorithm::iota()` в заголовочном файле `boost/algorithm/cxx11/iota.hpp`. Эта функция генерирует последовательные возрастающие числа. Она принимает два итератора начала и конца контейнера. Элементы в контейнере затем записываются последовательно возрастающими числами.
+В Boost.Algorithm есть алгоритм C++11 `boost::algorithm::iota()`, он находится в заголовочном файле `boost/algorithm/cxx11/iota.hpp`. Эта функция генерирует последовательные возрастающие числа. Она принимает два итератора начала и конца контейнера. Элементы в контейнере затем записываются последовательно возрастающими числами.
 
 Вместо `boost::algorithm::iota()`, [Пример 29.2](#ex.graph_02) использует `boost::algorithm::iota_n()`. Эта функция принимает один итератор, чтобы знать куда надо записать числа. Количество чисел для генерации передается в качестве третьего параметра `boost::algorithm::iota_n()`.
 
-`boost::algorithm::is_increasing()` и `boost::algorithm::is_sorted()`  определены в заголовочном файле `boost/algorithm/cxx11/is_sorted.hpp`. `boost::algorithm::is_increasing()` проверяет, находятся ли числа в возрастающем порядке, и применяется так же, как и `boost::algorithm::is_sorted()`. В заголовочном файле также определена функция `boost::algorithm::is_decreasing()`. 
+`boost::algorithm::is_increasing()` и `boost::algorithm::is_sorted()` определены в заголовочном файле `boost/algorithm/cxx11/is_sorted.hpp`. `boost::algorithm::is_increasing()` проверяет, находятся ли числа в возрастающем порядке, и применяется так же, как и `boost::algorithm::is_sorted()`. В заголовочном файле также определена функция `boost::algorithm::is_decreasing()`. 
 
 В [Примере 29.2](#ex.graph_02), **v** передается непосредственно `boost::algorithm::is_increasing()`. В Boost.Algorithm у всех предоставляемых функций есть другой ее вариант, работающий на основе диапазонов (*ranges*). Контейнеры могут быть переданы непосредственно в эти функции.
 
