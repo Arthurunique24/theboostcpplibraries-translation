@@ -95,3 +95,26 @@ int main()
   std::cout << r << '\n';
 }
 ```
+
+Функции, такие как `boost::algorithm::find_first()`, `boost::algorithm::find_last()`, `boost::algorithm::find_nth()`, `boost::algorithm::find_head()` и `boost::algorithm::find_tail()` доступны для нахождения строки в строках.
+
+Все эти функции возвращают пару итераторов типа `boost::iterator_range`. Этот класс происходит от Boost.Range, который реализует диапазон, основанный на идее итератора. Поскольку оператор `operator<<` перегружен для `boost::iterator_range`, результат отдельного алгоритма поиска может быть записан непосредственно в стандартный вывод. [Пример 5.4]() вывод C++ для первого результата и пустая строка для второй.
+
+#### Пример 5.5. Склеивание строк с `boost::algorithm::join()`
+
+```
+#include <boost/algorithm/string.hpp>
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace boost::algorithm;
+
+int main()
+{
+  std::vector<std::string> v{"Boost", "C++", "Libraries"};
+  std::cout << join(v, " ") << '\n';
+}
+```
+
+Контейнер строк передан как первый параметр к функции `boost::algorithm::join()`, который связывает их через второй параметр. [Пример 5.5]() выведет "Boost C++ Libraries".
