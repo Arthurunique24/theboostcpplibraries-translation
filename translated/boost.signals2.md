@@ -17,7 +17,7 @@ Boost.Signals2 сменяет библиотеку Boost.Signals, которая
 <a id="signals"></a>
 ## Сигналы
 
-Boost.Signals2 предостовляет класс `boost::signals2::signal`, который используется для создания сигналов. Этот класс определен в файле  `boost/signals2/signal.hpp`. Также, вы можете использовать главный заголовочный файл `boost/signals2.hpp`, в котором определены все классы и функции библиотеки Boost.Signals2.
+Boost.Signals2 предостовляет класс `boost::signals2::signal`, который используется для создания сигналов. Этот класс определен в файле `boost/signals2/signal.hpp`. Также, вы можете использовать главный заголовочный файл `boost/signals2.hpp`, в котором определены все классы и функции библиотеки Boost.Signals2.
 
 Boost.Signals2 определяет `boost::signals2::signal` и другие классы, так же как и все функции, в пространстве имен `boost::signals2`.
 
@@ -476,12 +476,12 @@ int main()
 <a id="multithreading"></a>
 ## Многопоточность
 
-Almost all classes provided by Boost.Signals2 are thread safe and can be used in multithreaded applications. For example, objects of type `boost::signals2::signal` and `boost::signals2::connection` can be accessed from different threads.
+Почти все классы, предоставляемые Boost.Signals2 являются потокобезопасными и могут использоваться в многопоточных приложениях. Например, к объектам типа `boost::signals2::signal` и `boost::signals2::connection` можно получить доступ из разных потоков.
 
-On the other hand, `boost::signals2::shared_connection_block` is not thread safe. This limitation is not important because multiple objects of type `boost::signals2::shared_connection_block` can be created in different threads and can use the same connection object.
+С другой стороны, `boost::signals2::shared_connection_block` не потокобезопасен. Это ограничение не важно, потому что несколько объектов типа `boost::signals2::shared_connection_block` могут быть созданы в различных потоках и могут использовать один и тот же объект соединения.
 
 <a id="ex.signals2_17"></a>
-### Пример 67.17. boost::signals2::signal is thread safe
+### Пример 67.17. Потокобезопасность boost::signals2::signal
 
 ```cpp
 #include <boost/signals2.hpp>
@@ -511,16 +511,16 @@ int main()
 }
 ```
 
-[Пример 67.17](#ex.signals2_17) creates two threads that execute the `loop()` function, which accesses **s** one hundred times to call the associated lambda function. Boost.Signals2 explicitly supports simultaneous access from different threads to objects of type `boost::signals2::signal`.
+В [Примере 67.17](#ex.signals2_17) создается два потока, которые выполняют функцию `loop()`, которая обращается **s** сто раз, что вызывает связанную лямбда-функцию. Boost.Signals2 явно поддерживает одновременный доступ из разных потоков к объектам типа `boost::signals2::signal`.
 
-[Пример 67.17](#ex.signals2_17) displays numbers from 0 to 99. Because **i** is incremented in two threads and written to the standard output stream in the lambda function, the numbers will not only be displayed twice, they will also overlap. However, because `boost::signals2::signal` can be accessed from different threads, the program will not crash.
+[Пример 67.17](#ex.signals2_17) выведет числа от 0 до 99. Поскольку **i** инкрементируется в двух потоках и выводится в стандартный поток вывода в лямбда-функции, числа не только будут выводится дважды, они, к тому же,будут пересекаться. Однако, так как доступ к `boost::signals2::signal` можно получить из разных потоков, программа не завершится с ошибкой.
 
-However, [Пример 67.17](#ex.signals2_17) still requires synchronization. Because two threads access **s**, the associated lambda function runs in parallel in two threads. To avoid having the two threads interrupt each other while writing to standard output, a mutex is used to synchronize access to **std::cout**.
+Тем не менее, в [Примере 67.17](#ex.signals2_17) по-прежнему требуется синхронизация. Поскольку два потока обращаются к **s**, связанная лямбда-функция работает параллельно в двух потоках. Для того, чтобы два потока не прерывали друг друга вовремя вывода в стандартный поток, для синхронизации доступа к **std::cout** используется мьютекс.
 
-For single-threaded applications, support for multithreading can be disabled in Boost.Signals2.
+Для однопоточных приложений, поддержка многопоточности в Boost.Signals2 может быть отключена.
 
 <a id="ex.signals2_18"></a>
-### Пример 67.18. boost::signals2::signal without thread safety
+### Пример 67.18. boost::signals2::signal без потокобезопасности
 
 ```cpp
 #include <boost/signals2.hpp>
@@ -539,8 +539,8 @@ int main()
 }
 ```
 
-Out of the many template parameters supported by `boost::signals2::signal`, the last one defines the type of mutex used for synchronization. Fortunately, Boost.Signals2 offers a simpler way to disable synchronization than passing the complete list of parameters.
+Из многих параметров шаблона, поддерживаемых `boost::signals2::signal`, последний из которых определяет тип мьютекса, используемого для синхронизации. К счастью, Boost.Signals2 предлагает более простой способ отключить синхронизацию, чем передача всего списока параметров.
 
-The `boost::signals2::keywords` namespace contains classes that make it possible to pass template parameters by name. `boost::signals2::keywords::mutex_type` can be used to pass the mutex type as the second template parameter to `boost::signals2::signal_type`. Please note that `boost::signals2::signal_type`, not `boost::signals2::signal`, must be used in this case. The type equivalent to `boost::signals2::signal`, which is required to define the signal **s**, is retrieved via `boost::signals2::signal_type::type`.
+Пространство имен `boost::signals2::keywords` содержит классы, которые позволяют передавать параметры шаблона по имени. `boost::signals2::keywords::mutex_type` может быть использован для передачи типа мьютекса в качестве второго параметра шаблона для `boost::signals2::signal_type`. Обратите внимание, что `boost::signals2::signal_type`, а не `boost::signals2::signal` необходимо использовать в данном случае. Тип эквивалентный типу `boost::signals2::signal`, который необходим для определения сигнала **s**, извлекается с помощью `boost::signals2::signal_type::type`.
 
-Boost.Signals2 provides an empty mutex implementation called `boost::signals2::dummy_mutex`. If a signal is defined with this class, it will no longer support multithreading (see [Пример 67.18](#ex.signals2_18)).
+Boost.Signals2 предоставляет пустую реализацию мьютекса под названием `boost::signals2::dummy_mutex`. Если сигнал определяется с этим классом, он больше не будет поддерживать многопоточность (см. [Пример 67.18](#ex.signals2_18)).
