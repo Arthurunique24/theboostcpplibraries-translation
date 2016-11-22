@@ -3,10 +3,11 @@
 Terms | Translations
 --- | ---
 part | часть
-state machines | конечный автомат
-implements | реализует
+state machine | конечный автомат
+implement | реализует
 to emit a signal | посылать сигнал
-association | связывание
-combiner | комбайнер
+signal is triggered | сигнал сработал
+association | связь
+combiner | объединитель
 forward iterators | итераторы прямого доступа
 input iterators | итераторами ввода
