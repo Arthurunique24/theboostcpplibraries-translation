@@ -9,7 +9,11 @@ With the exceptions noted below, this work is licensed under a Creative Commons 
 ## Не редактированные материалы
 7. [Boost.Format](/String_Handling/10.Boost.Format.md)
 10. [Boost.Tokenizer](/String_Handling/10.Boost.Tokenizer.md)
+[Algorithms](/Algorithms)
+32. [Boost.Asio](/Communication)
 
 ## Участники перевода
 - Chapter 7 - @1998bagaev
 - Chapter 10 - @1998bagaev
+- Algorithms - @ilyamoskalev, @couatl
+- Chapter 32 - @vladpereskokov, @Chocco-Crokko
