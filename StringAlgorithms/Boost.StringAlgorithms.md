@@ -5,7 +5,7 @@
 
 #### Пример 5.1. Преобразование строк к верхнему регистру
 
-```    
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -27,7 +27,7 @@ int main()
 
 #### Пример 5.2. Преобразование строки к верхнему регистру с набором параметров
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <locale>
@@ -50,13 +50,13 @@ int main()
 
 Турецкий набор параметров передаётся во втором вызове `boost::algorithm::to_upper_copy()`. Поскольку этот набор параметров имеет прописные эквиваленты для умлаутов, вся строка может быть преобразована в верхний регистр. Поэтому второй вызов правильно преобразовывает строку, которая выглядит как: "BOOST C++ KÜTÜPHANELERI".
 
-```
+__
 Если вы хотите выполнить пример в операционной системе POSIX, замените “Turkish” на “tr_TR” и будьте уверены, что турецкий набор параметров установлен.
-```
+__
 
 #### Пример 5.3. Алгоритмы для удаления символов из строки
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -79,7 +79,7 @@ Boost.StringAlgorithms обеспечивает некоторые функци�
 
 #### Пример 5.4. Поиск подстрок с `boost::algorithm::find_first()` 
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -102,7 +102,7 @@ int main()
 
 #### Пример 5.5. Склеивание строк с `boost::algorithm::join()`
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <vector>
@@ -121,7 +121,7 @@ int main()
 
 #### Пример 5.6. Алгоритмы для замены символов в строке
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -144,7 +144,7 @@ int main()
 
 #### Пример 5.7. Алгоритмы для подрезки строки
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -166,7 +166,7 @@ Boost.StringAlgorithms позволяет вам обеспечить преди
 
 #### Пример 5.8. Создание предикатов с `boost::algorithm::is_any_of()`
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -188,7 +188,7 @@ Boost.StringAlgorithms представляет много функций-пом
 
 #### Пример 5.8. Создание предикатов с `boost::algorithm::is_digit()`
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -212,7 +212,7 @@ Boost.StringAlgorithms также обеспечивает функции-пом
 
 #### Пример 5.10. Алгоритмы для сравнения строк с другими
 
-```
+```cppcpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <iostream>
@@ -236,7 +236,7 @@ int main()
 
 #### Пример 5.11. Разделение строк с `boost::algorithm::split()`
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <string>
 #include <vector>
@@ -261,7 +261,7 @@ int main()
 
 #### Пример 5.12. Поиск строк с boost::algorithm::find_regex()
 
-```
+```cpp
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/regex.hpp>
 #include <string>
