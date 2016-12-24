@@ -7,13 +7,14 @@ With the exceptions noted below, this work is licensed under a Creative Commons 
 
 
 ## Не редактированные материалы
-7. [Boost.Format](/String_Handling/10.Boost.Format.md)
-10. [Boost.Tokenizer](/String_Handling/10.Boost.Tokenizer.md)
-[Algorithms](/Algorithms)
-32. [Boost.Asio](/Communication)
-
-## Участники перевода
-- Chapter 7 - @1998bagaev
-- Chapter 10 - @1998bagaev
-- Algorithms - @ilyamoskalev, @couatl
-- Chapter 32 - @vladpereskokov, @Chocco-Crokko
+* [String Handling](/String_Handling/10.Boost.Format.md)
+* [String Algorithms](/StringAlgorithms)
+* [Containers](/Containers/)
+* [Algorithms](/Algorithms)
+* [Asio](/Communication)
+* [Interprocess](/interprocess)
+* [Serialization](/Serialization)
+* [Stream and Files](/Stream_and_Files)
+* [Time](/Timers)
+* [Boost.Log](/boost.log)
+* [Signal2](/translated)
