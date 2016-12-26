@@ -3,7 +3,7 @@
 Алгоритмы из Boost.Graph напоминают алгоритмы из стандартной библиотеки - они универсальные и очень гибкие. Тем не менее, не всегда сразу понятно, как ими пользоваться.
 
 <a name="ex.graph_08"/>
-Пример 31.8 Обход графа в ширину с `boost::breadth_first_search()`
+#### Пример 31.8 Обход графа в ширину с `boost::breadth_first_search()`
 ```c++
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/breadth_first_search.hpp>
@@ -75,7 +75,7 @@ int main()
 [Пример 31.9](#ex.graph_09) показывает, как можно найти кратчайший путь.
 
 <a name="ex.graph_09"/>
-Пример 31.9 Ищем пути с `boost::breadth_first_search()`
+#### Пример 31.9 Ищем пути с `boost::breadth_first_search()`
 ```c++
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/breadth_first_search.hpp>
@@ -130,7 +130,7 @@ int main()
 После выполнения `boost::breadth_first_search()`, карта свойств **predecessors** содержит предка каждой вершины. Чтобы найти первую вершину при движении из верхнего левого угла в нижний правый угол, получают доступ к элементу с индексом 0 - индексом верхней левой вершины - в **predecessors**. Найденное значение в **predecessors** равно 1, что означает, что следующая вершина находится в правом верхнем углу. Обращение к **predecessors** с индексом 1 вернет следующую вершину. В [Примере 31.9](#ex.graph_09) это нижняя правая вершина - та, что с индексом 2. Таким образом итеративно можно найти все вершины в огромных графах, переходя от начальной вершины к конечной.
 
 <a name="ex.graph_10"/>
-Пример 31.10 Ищем пути вместе с `boost::breadth_first_search()`
+#### Пример 31.10 Ищем пути вместе с `boost::breadth_first_search()`
 ```c++
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/breadth_first_search.hpp>
@@ -187,7 +187,7 @@ int main()
 `boost::breadth_first_search()` можно использовать только когда все ребра равновесные. Фактически это означает, что время, необходимое, чтобы пересечь любое ребро, всегда одинаково. Если ребра взвешенные, причем каждое ребро будет иметь разный вес, вам придется использовать другой алгоритм, чтобы найти кратчайший путь.
 
 <a name="ex.graph_11"/>
-Пример 31.11 Ищем кратчайшие пусти с `dijkstra_shortest_paths()`
+#### Пример 31.11 Ищем кратчайшие пусти с `dijkstra_shortest_paths()`
 ```c++
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
@@ -249,7 +249,7 @@ int main()
 [Пример 31.11](#ex.graph_11) выведет 0, 3 и 2: самый короткий путь из левого верхнего угла в правый нижний ведет через нижнюю левую вершину. Путь через верхнюю правую вершину больше.
 
 <a name="ex.graph_12"/>
-Пример 31.12 Пользовательские свойства в `dijkstra_shortest_paths()`
+#### Пример 31.12 Пользовательские свойства в `dijkstra_shortest_paths()`
 ```c++
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
@@ -313,7 +313,7 @@ int main()
 Чтобы сказать `boost::dijkstra_shortest_paths()`, что **weight** в `edge_properties` содержит веса, передается указатель на это свойство. Но он не передается в `weight_map()` напрямую. Вместо этого он передается в объект, созданный `boost::get()`. Теперь вызов завершен, и `boost::dijkstra_shortest_paths()` знает, какое свойство позволяет получить вес ребра.
 
 <a name="ex.graph_13"/>
-Пример 31.13 Инициализация пользовательских свойств при определении графа
+#### Пример 31.13 Инициализация пользовательских свойств при определении графа
 ```c++
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
@@ -365,7 +365,7 @@ int main()
 Есть возможность инициализировать пользовательские свойства при определении графа. Вам нужно только передать в качестве третьего аргумента конструктора `boost::adjacency_list` итератор типа пользовательского свойства. Таким образом вам не нужно получать доступ к свойствам ребер через дескрипторы. [Пример 31.13](#ex.graph_13) работает как предыдущий пример и выводит тот же самый результат.
 
 <a name="ex.graph_14"/>
-Пример 31.14 Случайные пути с `random_spanning_tree()`
+#### Пример 31.14 Случайные пути с `random_spanning_tree()`
 ```c++
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/random_spanning_tree.hpp>
