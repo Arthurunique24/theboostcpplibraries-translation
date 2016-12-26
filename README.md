@@ -4,17 +4,16 @@ _Данный репозиторий содержит перевод сайта 
 With the exceptions noted below, this work is licensed under a Creative Commons Attribution - NonCommercial - NoDerivatives 4.0 International License. Visit https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en to view a copy of the full license.
 
 ## Содержание
-
+* [Asio](/Communication)
+* [Algorithms](/Algorithms)
+* [Serialization](/Serialization)
+* [Signal2](/Design_Patterns)
+* [Interprocess](/interprocess)
 
 ## Не редактированные материалы
 * [String Handling](/String_Handling/10.Boost.Format.md)
 * [String Algorithms](/StringAlgorithms)
 * [Containers](/Containers/)
-* [Algorithms](/Algorithms)
-* [Asio](/Communication)
-* [Interprocess](/interprocess)
-* [Serialization](/Serialization)
 * [Stream and Files](/Stream_and_Files)
 * [Time](/Timers)
 * [Boost.Log](/boost.log)
-* [Signal2](/translated)
