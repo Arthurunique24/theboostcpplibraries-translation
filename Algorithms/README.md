@@ -11,6 +11,6 @@
 
 Содержание:
 
-29. [Boost.Algorithm](../master/Boost_Algorithm.md)
-30. [Boost.Range](../master/Boost_Range.md)
-31. [Boost.Graph](../master/Boost_Graph.md)
+29. [Boost.Algorithm](./Boost_Algorithm.md)
+30. [Boost.Range](./Boost_Range.md)
+31. [Boost.Graph](./Boost_Graph.md)
